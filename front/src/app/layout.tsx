@@ -2,7 +2,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import Providers from '@/components/layout/providers';
-import ThemeProvider from '@/components/layout/ThemeToggle/theme-provider';
+import ThemeProvider from '@/components/layout/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { fontVariables } from '@/lib/font';
 import { cn } from '@/lib/utils';

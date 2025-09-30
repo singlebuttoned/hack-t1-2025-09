@@ -1,79 +1,78 @@
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@/test/test-utils';
-import { describe, it, expect } from 'vitest';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import AppSidebar from '../app-sidebar';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useEditionNavItems } from '@/hooks/use-edition-nav-items';
+import { useCurrentPage } from '@/hooks/use-current-page';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
-// Create a simple sidebar component for testing sidebar functionality
-const AppSidebar = () => (
-  <nav role='navigation' data-testid='app-sidebar'>
-    <ul>
-      <li>
-        <a href='/dashboard' aria-current='page'>
-          Dashboard
-        </a>
-      </li>
-      <li>
-        <a href='/products'>Products</a>
-      </li>
-      <li>
-        <a href='/stats'>Analytics</a>
-      </li>
-    </ul>
-    <div data-testid='user-nav'>
-      <span>test@example.com</span>
-      <button data-testid='sign-out-button'>Sign Out</button>
-    </div>
-  </nav>
-);
+vi.mock('@/hooks/use-edition-nav-items', () => ({
+  useEditionNavItems: vi.fn()
+}));
+
+vi.mock('@/hooks/use-current-page', () => ({
+  useCurrentPage: vi.fn()
+}));
+
+vi.mock('@/hooks/use-media-query', () => ({
+  useMediaQuery: vi.fn()
+}));
+
+const navItems = [
+  { title: 'Overview', url: '/dashboard/overview', icon: 'dashboard' },
+  { title: 'Product', url: '/dashboard/product', icon: 'product' }
+];
+
+const renderSidebar = () =>
+  render(
+    <SidebarProvider defaultOpen>
+      <AppSidebar />
+    </SidebarProvider>
+  );
+
+beforeEach(() => {
+  vi.mocked(useEditionNavItems).mockReturnValue(navItems);
+  vi.mocked(useCurrentPage).mockReturnValue(navItems[0]);
+  vi.mocked(useMediaQuery).mockReturnValue({ isOpen: false });
+});
 
 describe('AppSidebar', () => {
-  it('renders navigation items', () => {
-    render(<AppSidebar />);
+  it('renders navigation entries from the current edition', async () => {
+    renderSidebar();
 
-    // Check for main navigation items
     expect(
-      screen.getByRole('link', { name: /dashboard/i })
+      await screen.findByRole('link', { name: 'Overview' })
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /products/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Product' })).toBeInTheDocument();
   });
 
-  it('shows user information when authenticated', () => {
-    render(<AppSidebar />);
+  it('marks the current page as active', async () => {
+    vi.mocked(useCurrentPage).mockReturnValue(navItems[1]);
 
-    // Check for user navigation component
-    const userNav = screen.getByTestId('user-nav');
-    expect(userNav).toBeInTheDocument();
-    expect(screen.getByText(/test@example.com/i)).toBeInTheDocument();
+    renderSidebar();
+
+    const activeLink = await screen.findByRole('link', { name: 'Product' });
+    expect(activeLink.getAttribute('data-active')).toBe('true');
+
+    const inactiveLink = screen.getByRole('link', { name: 'Overview' });
+    expect(inactiveLink.getAttribute('data-active')).not.toBe('true');
   });
 
-  it('highlights active navigation item', () => {
-    render(<AppSidebar />);
+  it('toggles between open and closed labels when clicking the menu control', async () => {
+    const user = userEvent.setup();
+    renderSidebar();
 
-    // The dashboard link should be active (based on mocked pathname)
-    const dashboardLink = screen.getByRole('link', { name: /dashboard/i });
-    expect(dashboardLink).toHaveAttribute('aria-current', 'page');
-  });
-
-  it('is accessible', () => {
-    render(<AppSidebar />);
-
-    // Check for proper navigation landmark
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
-
-    // Check for proper link roles
-    const links = screen.getAllByRole('link');
-    expect(links.length).toBeGreaterThan(0);
-
-    // Each link should have accessible text
-    links.forEach((link) => {
-      expect(link).toHaveAccessibleName();
+    const closeButton = await screen.findByRole('button', {
+      name: /close menu/i
     });
-  });
+    expect(closeButton).toBeVisible();
 
-  it('supports keyboard navigation', () => {
-    render(<AppSidebar />);
+    await user.click(closeButton);
 
-    const firstLink = screen.getByRole('link', { name: /dashboard/i });
-    firstLink.focus();
-
-    expect(document.activeElement).toBe(firstLink);
+    const openButton = await screen.findByRole('button', {
+      name: /open menu/i
+    });
+    expect(openButton).toBeVisible();
   });
 });

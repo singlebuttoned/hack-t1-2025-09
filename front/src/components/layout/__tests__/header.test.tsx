@@ -1,40 +1,76 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@/test/test-utils';
-import { describe, it, expect } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { render, screen, waitFor } from '@/test/test-utils';
+import Header from '../header';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-// Create a simple header component for testing
-const Header = () => (
-  <header data-testid='header' role='banner'>
-    <div data-testid='user-nav'>User Navigation</div>
-  </header>
-);
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn()
+}));
+
+vi.mock('@/hooks/use-current-page', () => ({
+  useCurrentPage: vi.fn()
+}));
+
+import { useRouter } from 'next/navigation';
+import { useCurrentPage } from '@/hooks/use-current-page';
+
+const pushMock = vi.fn();
+
+beforeEach(() => {
+  pushMock.mockReset();
+  vi.mocked(useRouter).mockReturnValue({
+    push: pushMock,
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn()
+  } as unknown as ReturnType<typeof useRouter>);
+  vi.mocked(useCurrentPage).mockReturnValue({
+    title: 'Dashboard',
+    url: '/dashboard/overview',
+    icon: 'dashboard'
+  });
+});
 
 describe('Header', () => {
-  it('renders header with user navigation', () => {
+  it('renders the current page heading and its icon container', async () => {
     render(<Header />);
 
-    // Check for main header element
-    expect(screen.getByRole('banner')).toBeInTheDocument();
+    const heading = await screen.findByRole('heading', {
+      level: 1,
+      name: 'Dashboard'
+    });
 
-    // Check for user navigation
-    expect(screen.getByTestId('user-nav')).toBeInTheDocument();
+    expect(heading).toBeVisible();
+    expect(heading.previousElementSibling?.querySelector('svg')).not.toBeNull();
   });
 
-  it('has proper semantic structure', () => {
+  it('shows user menu items when the dropdown is opened', async () => {
+    const user = userEvent.setup();
     render(<Header />);
 
-    // Header should be a banner landmark
-    const header = screen.getByRole('banner');
-    expect(header).toBeInTheDocument();
+    const trigger = await screen.findByRole('button', { name: /test/i });
+    await user.click(trigger);
+
+    expect(await screen.findByText('Profile')).toBeVisible();
+    expect(screen.getByText('Billing')).toBeVisible();
+    expect(screen.getByText('Notifications')).toBeVisible();
+    expect(screen.getByTestId('sign-out-button')).toBeVisible();
   });
 
-  it('maintains consistent layout', () => {
+  it('navigates to the profile page from the dropdown', async () => {
+    const user = userEvent.setup();
     render(<Header />);
 
-    const header = screen.getByRole('banner');
+    const trigger = await screen.findByRole('button', { name: /test/i });
+    await user.click(trigger);
 
-    // Header should be visible and present
-    expect(header).toBeVisible();
-    expect(header).toBeInTheDocument();
+    const profileItem = await screen.findByText('Profile');
+    await user.click(profileItem);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/dashboard/profile');
+    });
   });
 });

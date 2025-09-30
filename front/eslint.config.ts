@@ -31,13 +31,11 @@ const config: Linter.Config[] = [
       '**/build/**',
       '**/__tests__/**',
       '**/test/**',
-      '**/.cache/**',
-      'eslint.config.ts',
-      'tsconfig.json',
+      'playwright.config.ts',
+      'vitest.config.ts',
       'next.config.ts',
       'postcss.config.js',
-      'vitest.config.ts',
-      'playwright.config.ts'
+      '**/.cache/**'
     ]
   },
 

@@ -14,11 +14,10 @@ import {
   SidebarRail,
   useSidebar
 } from '@/components/ui/sidebar';
-import { navItems } from '@/constants/data';
 import { useCurrentPage } from '@/hooks/use-current-page';
+import { useEditionNavItems } from '@/hooks/use-edition-nav-items';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
-import { NavItem } from '../../types/navigation';
 import { CompanyLogoSVG } from '../company-logo';
 import { Icons } from '../icons';
 
@@ -30,6 +29,7 @@ export const company = {
 
 function AppSidebar() {
   const currentPage = useCurrentPage();
+  const navItems = useEditionNavItems();
   const { isOpen } = useMediaQuery();
   const { toggleSidebar, open } = useSidebar();
 
@@ -58,7 +58,7 @@ function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
 
-            {navItems.map((item: NavItem) => {
+            {navItems.map((item) => {
               const Icon =
                 item.icon !== undefined ? Icons[item.icon] : Icons.logo;
               return (

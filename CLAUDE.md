@@ -174,7 +174,7 @@ cd back
 - **TypeScript**: Strict typing across all components
 - **ESLint/Prettier**: Consistent code formatting
 - **Component Testing**: Jest + React Testing Library
-- **E2E Testing**: Playwright (optional)
+- **UI Testing**: Playwright (optional)
 
 ### Performance Targets
 - **Load Time**: < 3 seconds first load

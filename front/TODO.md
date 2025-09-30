@@ -1,0 +1,21 @@
+- [x] fix current lint issues
+- [x] stricter eslint config
+- [ ] microfrontends
+- [ ] cleanup app/ and add eslint rules for it
+- [ ] fix tests
+- [ ] naming conventions
+- [ ] review unit tests
+- [ ] stricter react-specific rules
+- [ ] partial records rule
+- [ ] forbid somehow "supress error message with default empty string" in case when a real value is expected
+- [ ] helpers like records
+- [ ] try use pnpm build && pnpm start in ui tests
+- [ ] fix ide errors in tests
+- [ ] enable linters for tests
+- [ ] CLAUDE.md: allow suppressing lint errors in edge cases
+- [ ] more strict force return types
+- [ ] unify constants/configs
+- [ ] unify imports relative vs @/
+- [ ] prefer explicit type declarations over `as`
+- [ ] in docs specify, that code should be commented, but not excessively
+- [ ] throw exceptions only if this is completely unexpected app state (this should never happen). If it is recoverable, use result (fail)

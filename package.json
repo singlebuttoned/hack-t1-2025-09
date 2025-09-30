@@ -1,0 +1,32 @@
+{
+  "name": "task1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky",
+    "lint-staged": "lint-staged --cwd front --config package.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "pnpm lint:husky-pre-commit",
+      "pnpm format:husky-pre-commit"
+    ],
+    "**/*.{json,md,css,scss}": [
+      "pnpm format:husky-pre-commit"
+    ]
+  }
+}

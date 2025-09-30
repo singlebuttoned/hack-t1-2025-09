@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "507f1f77bcf86cd799439011",
+    "userId": "user123",
+    "title": "Whey Protein 2kg",
+    "description": "High-quality protein for muscle gain and recovery. Perfect for post-workout nutrition.",
+    "category": "sports nutrition",
+    "price": 2500,
+    "commissionPercent": 15,
+    "referralLink": "https://example.com/ref/whey-protein-abc123",
+    "clicks": 47,
+    "createdAt": "2024-01-15T10:30:00.000Z"
+  },
+  {
+    "_id": "507f1f77bcf86cd799439012",
+    "userId": "user123",
+    "title": "Resistance Bands Set",
+    "description": "A set of resistance bands for home workouts. Includes light, medium, and heavy resistance levels.",
+    "category": "equipment",
+    "price": 1200,
+    "commissionPercent": 20,
+    "referralLink": "https://example.com/ref/bands-def456",
+    "clicks": 32,
+    "createdAt": "2024-01-20T14:15:00.000Z"
+  },
+  {
+    "_id": "507f1f77bcf86cd799439013",
+    "userId": "user123",
+    "title": "Mi Band Fitness Tracker",
+    "description": "Smart band for activity and health tracking. Features heart rate monitoring and sleep tracking.",
+    "category": "gadgets",
+    "price": 3500,
+    "commissionPercent": 8,
+    "referralLink": "https://example.com/ref/miband-ghi789",
+    "clicks": 89,
+    "createdAt": "2024-01-25T09:45:00.000Z"
+  },
+  {
+    "_id": "507f1f77bcf86cd799439014",
+    "userId": "user123",
+    "title": "Athletic Running Shoes",
+    "description": "Lightweight running shoes for daily training. Excellent cushioning and breathable mesh upper.",
+    "category": "clothing",
+    "price": 4500,
+    "commissionPercent": 12,
+    "referralLink": "https://example.com/ref/shoes-jkl012",
+    "clicks": 63,
+    "createdAt": "2024-02-01T16:20:00.000Z"
+  },
+  {
+    "_id": "507f1f77bcf86cd799439015",
+    "userId": "user123",
+    "title": "Yoga Mat Pro",
+    "description": "Premium non-slip yoga mat with extra thickness for comfortable practice.",
+    "category": "equipment",
+    "price": 1800,
+    "commissionPercent": 18,
+    "referralLink": "https://example.com/ref/yoga-mat-mno345",
+    "clicks": 24,
+    "createdAt": "2024-02-05T11:30:00.000Z"
+  }
+]

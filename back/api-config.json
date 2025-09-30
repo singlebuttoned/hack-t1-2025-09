@@ -1,0 +1,243 @@
+{
+  "uuid": "8c5b3c89-7d4e-4c9a-b8f3-123456789abc",
+  "lastMigration": 32,
+  "name": "Product Management API",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "localhost",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "route-products-get",
+      "type": "http",
+      "documentation": "Get all products for the authenticated user",
+      "method": "get",
+      "endpoint": "products",
+      "responses": [
+        {
+          "uuid": "response-products-get-success",
+          "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"_id\": \"507f1f77bcf86cd799439011\",\n      \"userId\": \"user123\",\n      \"title\": \"Whey Protein 2kg\",\n      \"description\": \"High-quality protein for muscle gain and recovery\",\n      \"category\": \"sports nutrition\",\n      \"price\": 2500,\n      \"commissionPercent\": 15,\n      \"referralLink\": \"https://example.com/ref/whey-protein-abc123\",\n      \"clicks\": 47,\n      \"createdAt\": \"2024-01-15T10:30:00.000Z\"\n    },\n    {\n      \"_id\": \"507f1f77bcf86cd799439012\",\n      \"userId\": \"user123\",\n      \"title\": \"Resistance Bands Set\",\n      \"description\": \"A set of resistance bands for home workouts\",\n      \"category\": \"equipment\",\n      \"price\": 1200,\n      \"commissionPercent\": 20,\n      \"referralLink\": \"https://example.com/ref/bands-def456\",\n      \"clicks\": 32,\n      \"createdAt\": \"2024-01-20T14:15:00.000Z\"\n    },\n    {\n      \"_id\": \"507f1f77bcf86cd799439013\",\n      \"userId\": \"user123\",\n      \"title\": \"Mi Band Fitness Tracker\",\n      \"description\": \"Smart band for activity and health tracking\",\n      \"category\": \"gadgets\",\n      \"price\": 3500,\n      \"commissionPercent\": 8,\n      \"referralLink\": \"https://example.com/ref/miband-ghi789\",\n      \"clicks\": 89,\n      \"createdAt\": \"2024-01-25T09:45:00.000Z\"\n    },\n    {\n      \"_id\": \"507f1f77bcf86cd799439014\",\n      \"userId\": \"user123\",\n      \"title\": \"Athletic Running Shoes\",\n      \"description\": \"Lightweight running shoes for daily training\",\n      \"category\": \"clothing\",\n      \"price\": 4500,\n      \"commissionPercent\": 12,\n      \"referralLink\": \"https://example.com/ref/shoes-jkl012\",\n      \"clicks\": 63,\n      \"createdAt\": \"2024-02-01T16:20:00.000Z\"\n    }\n  ],\n  \"total\": 4\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "route-products-post",
+      "type": "http",
+      "documentation": "Create a new product",
+      "method": "post",
+      "endpoint": "products",
+      "responses": [
+        {
+          "uuid": "response-products-post-success",
+          "body": "{\n  \"success\": true,\n  \"message\": \"Product created successfully\",\n  \"data\": {\n    \"_id\": \"507f1f77bcf86cd799439999\",\n    \"userId\": \"user123\",\n    \"title\": \"{{body 'title'}}\",\n    \"description\": \"{{body 'description'}}\",\n    \"category\": \"{{body 'category'}}\",\n    \"price\": {{body 'price'}},\n    \"commissionPercent\": {{body 'commissionPercent'}},\n    \"referralLink\": \"https://example.com/ref/{{faker 'string.alphanumeric' 10}}\",\n    \"clicks\": 0,\n    \"createdAt\": \"{{now}}\"\n  }\n}",
+          "latency": 200,
+          "statusCode": 201,
+          "label": "Created",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "route-products-put",
+      "type": "http",
+      "documentation": "Update an existing product",
+      "method": "put",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "response-products-put-success",
+          "body": "{\n  \"success\": true,\n  \"message\": \"Product updated successfully\",\n  \"data\": {\n    \"_id\": \"{{urlParam 'id'}}\",\n    \"userId\": \"user123\",\n    \"title\": \"{{body 'title'}}\",\n    \"description\": \"{{body 'description'}}\",\n    \"category\": \"{{body 'category'}}\",\n    \"price\": {{body 'price'}},\n    \"commissionPercent\": {{body 'commissionPercent'}},\n    \"referralLink\": \"{{body 'referralLink'}}\",\n    \"clicks\": {{body 'clicks'}},\n    \"createdAt\": \"{{body 'createdAt'}}\",\n    \"updatedAt\": \"{{now}}\"\n  }\n}",
+          "latency": 150,
+          "statusCode": 200,
+          "label": "Updated",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "uuid": "response-products-put-notfound",
+          "body": "{\n  \"success\": false,\n  \"message\": \"Product not found\"\n}",
+          "latency": 100,
+          "statusCode": 404,
+          "label": "Not Found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "nonexistent",
+              "invert": false,
+              "operator": "equals"
+            }
+          ]
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "route-products-delete",
+      "type": "http",
+      "documentation": "Delete a product",
+      "method": "delete",
+      "endpoint": "products/:id",
+      "responses": [
+        {
+          "uuid": "response-products-delete-success",
+          "body": "{\n  \"success\": true,\n  \"message\": \"Product deleted successfully\"\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "Deleted",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        {
+          "uuid": "response-products-delete-notfound",
+          "body": "{\n  \"success\": false,\n  \"message\": \"Product not found\"\n}",
+          "latency": 100,
+          "statusCode": 404,
+          "label": "Not Found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "id",
+              "value": "nonexistent",
+              "invert": false,
+              "operator": "equals"
+            }
+          ]
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "route-stats-get",
+      "type": "http",
+      "documentation": "Get analytics and statistics",
+      "method": "get",
+      "endpoint": "stats",
+      "responses": [
+        {
+          "uuid": "response-stats-success",
+          "body": "{\n  \"success\": true,\n  \"data\": {\n    \"overview\": {\n      \"totalProducts\": 4,\n      \"totalClicks\": 231,\n      \"potentialEarnings\": 45280,\n      \"avgClicksPerProduct\": 57.75\n    },\n    \"topProducts\": [\n      {\n        \"_id\": \"507f1f77bcf86cd799439013\",\n        \"title\": \"Mi Band Fitness Tracker\",\n        \"clicks\": 89,\n        \"earnings\": 24920\n      },\n      {\n        \"_id\": \"507f1f77bcf86cd799439014\",\n        \"title\": \"Athletic Running Shoes\",\n        \"clicks\": 63,\n        \"earnings\": 34020\n      },\n      {\n        \"_id\": \"507f1f77bcf86cd799439011\",\n        \"title\": \"Whey Protein 2kg\",\n        \"clicks\": 47,\n        \"earnings\": 17625\n      }\n    ],\n    \"clicksOverTime\": [\n      { \"date\": \"2024-01-15\", \"clicks\": 12 },\n      { \"date\": \"2024-01-20\", \"clicks\": 18 },\n      { \"date\": \"2024-01-25\", \"clicks\": 25 },\n      { \"date\": \"2024-02-01\", \"clicks\": 31 },\n      { \"date\": \"2024-02-05\", \"clicks\": 28 },\n      { \"date\": \"2024-02-10\", \"clicks\": 34 },\n      { \"date\": \"2024-02-15\", \"clicks\": 42 }\n    ],\n    \"categoryBreakdown\": [\n      { \"category\": \"sports nutrition\", \"products\": 1, \"clicks\": 47, \"earnings\": 17625 },\n      { \"category\": \"equipment\", \"products\": 1, \"clicks\": 32, \"earnings\": 7680 },\n      { \"category\": \"gadgets\", \"products\": 1, \"clicks\": 89, \"earnings\": 24920 },\n      { \"category\": \"clothing\", \"products\": 1, \"clicks\": 63, \"earnings\": 34020 }\n    ]\n  }\n}",
+          "latency": 150,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "route-click-post",
+      "type": "http",
+      "documentation": "Record a click on a product referral link",
+      "method": "post",
+      "endpoint": "click/:productId",
+      "responses": [
+        {
+          "uuid": "response-click-success",
+          "body": "{\n  \"success\": true,\n  \"message\": \"Click recorded successfully\",\n  \"data\": {\n    \"_id\": \"507f1f77bcf86cd799440000\",\n    \"productId\": \"{{urlParam 'productId'}}\",\n    \"userId\": \"user123\",\n    \"clickedAt\": \"{{now}}\",\n    \"ip\": \"{{faker 'internet.ip'}}\"\n  }\n}",
+          "latency": 100,
+          "statusCode": 200,
+          "label": "Click Recorded",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "route-products-get"
+    },
+    {
+      "type": "route",
+      "uuid": "route-products-post"
+    },
+    {
+      "type": "route",
+      "uuid": "route-products-put"
+    },
+    {
+      "type": "route",
+      "uuid": "route-products-delete"
+    },
+    {
+      "type": "route",
+      "uuid": "route-stats-get"
+    },
+    {
+      "type": "route",
+      "uuid": "route-click-post"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {},
+  "cors": true,
+  "headers": [
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET, POST, PUT, DELETE, OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Authorization"
+    }
+  ],
+  "proxyReqHeaders": [],
+  "proxyResHeaders": [],
+  "data": [],
+  "callbacks": []
+}

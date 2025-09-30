@@ -1,0 +1,194 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+
+  /* Light theme - using Figma white theme colors */
+  --background: #fefefe;
+  --foreground: #131418;
+  --card: #fefefe;
+  --card-foreground: #131418;
+  --popover: #fefefe;
+  --popover-foreground: #131418;
+  --primary: #eaeaea;
+  --primary-foreground: #131418;
+  --secondary: #bebebe;
+  --secondary-foreground: #131418;
+  --muted: #eaeaea;
+  --muted-foreground: #717274;
+  --accent: #3c88ed;
+  --accent-foreground: #fefefe;
+  --destructive: #f25660;
+  --border: #bebebe;
+  --input: #eaeaea;
+  --ring: #3c88ed;
+  --chart-1: #3c88ed;
+  --chart-2: #53b687;
+  --chart-3: #f2ac4b;
+  --chart-4: #ff3fb8;
+  --chart-5: #104e64;
+  --sidebar: #fefefe;
+  --sidebar-foreground: #131418;
+  --sidebar-primary: #eaeaea;
+  --sidebar-primary-foreground: #131418;
+  --sidebar-accent: #3c88ed;
+  --sidebar-accent-foreground: #fefefe;
+  --sidebar-border: #bebebe;
+  --sidebar-ring: #3c88ed;
+}
+
+.dark {
+  /* Dark theme - using Figma black theme colors */
+  --background: #131418;
+  --foreground: #fefefe;
+  --card: #191a1e;
+  --card-foreground: #fefefe;
+  --popover: #191a1e;
+  --popover-foreground: #fefefe;
+  --primary: #191a1e;
+  --primary-foreground: #fefefe;
+  --secondary: #393939;
+  --secondary-foreground: #fefefe;
+  --muted: #393939;
+  --muted-foreground: #8c8c8e;
+  --accent: #3c88ed;
+  --accent-foreground: #fefefe;
+  --destructive: #f25660;
+  --border: #393939;
+  --input: #191a1e;
+  --ring: #3c88ed;
+  --chart-1: #3c88ed;
+  --chart-2: #53b687;
+  --chart-3: #f2ac4b;
+  --chart-4: #ff3fb8;
+  --chart-5: #104e64;
+  --sidebar: #191a1e;
+  --sidebar-foreground: #8c8c8e;
+  --sidebar-primary: #222328;
+  --sidebar-primary-foreground: #fefefe;
+  --sidebar-accent: #222328;
+  --sidebar-accent-foreground: #fefefe;
+  --sidebar-border: #393939;
+  --sidebar-ring: #3c88ed;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* System colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* View Transition Wave Effect */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  /* Ensure the outgoing view (old theme) is beneath */
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  /* Ensure the incoming view (new theme) is always on top */
+  z-index: 1;
+}
+
+@keyframes reveal {
+  from {
+    /* Use CSS variables for the origin, defaulting to center if not set */
+    clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+    opacity: 0.7;
+  }
+  to {
+    /* Use CSS variables for the origin, defaulting to center if not set */
+    clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
+    opacity: 1;
+  }
+}
+
+::view-transition-new(root) {
+  /* Apply the reveal animation */
+  animation: reveal 0.4s ease-in-out forwards;
+}
+
+/* Cursor pointer fix for interactive elements */
+@layer base {
+  /* Primary interactive elements */
+  button:not([disabled]),
+  [role='button']:not([disabled]),
+  [role='tab']:not([disabled]),
+  [role='option']:not([disabled]),
+  [role='menuitem']:not([disabled]),
+  [role='menuitemcheckbox']:not([disabled]),
+  [role='menuitemradio']:not([disabled]) {
+    cursor: pointer;
+  }
+
+  /* Form controls */
+  input[type='checkbox']:not([disabled]),
+  input[type='radio']:not([disabled]),
+  input[type='submit']:not([disabled]),
+  input[type='button']:not([disabled]),
+  input[type='reset']:not([disabled]) {
+    cursor: pointer;
+  }
+
+  /* Labels associated with form controls */
+  label[for]:not([disabled]) {
+    cursor: pointer;
+  }
+
+  /* Clickable elements with specific data attributes */
+  [data-clickable='true']:not([disabled]) {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "overview": {
+    "totalProducts": 5,
+    "totalClicks": 255,
+    "potentialEarnings": 52465,
+    "avgClicksPerProduct": 51
+  },
+  "topProducts": [
+    {
+      "_id": "507f1f77bcf86cd799439013",
+      "title": "Mi Band Fitness Tracker",
+      "clicks": 89,
+      "earnings": 24920,
+      "conversionRate": "3.2%"
+    },
+    {
+      "_id": "507f1f77bcf86cd799439014",
+      "title": "Athletic Running Shoes",
+      "clicks": 63,
+      "earnings": 34020,
+      "conversionRate": "2.8%"
+    },
+    {
+      "_id": "507f1f77bcf86cd799439011",
+      "title": "Whey Protein 2kg",
+      "clicks": 47,
+      "earnings": 17625,
+      "conversionRate": "4.1%"
+    },
+    {
+      "_id": "507f1f77bcf86cd799439012",
+      "title": "Resistance Bands Set",
+      "clicks": 32,
+      "earnings": 7680,
+      "conversionRate": "3.5%"
+    },
+    {
+      "_id": "507f1f77bcf86cd799439015",
+      "title": "Yoga Mat Pro",
+      "clicks": 24,
+      "earnings": 7776,
+      "conversionRate": "2.9%"
+    }
+  ],
+  "clicksOverTime": [
+    { "date": "2024-01-01", "clicks": 8 },
+    { "date": "2024-01-08", "clicks": 12 },
+    { "date": "2024-01-15", "clicks": 15 },
+    { "date": "2024-01-22", "clicks": 18 },
+    { "date": "2024-01-29", "clicks": 22 },
+    { "date": "2024-02-05", "clicks": 28 },
+    { "date": "2024-02-12", "clicks": 31 },
+    { "date": "2024-02-19", "clicks": 35 },
+    { "date": "2024-02-26", "clicks": 42 },
+    { "date": "2024-03-05", "clicks": 44 }
+  ],
+  "categoryBreakdown": [
+    {
+      "category": "sports nutrition",
+      "products": 1,
+      "clicks": 47,
+      "earnings": 17625,
+      "percentage": 18.4
+    },
+    {
+      "category": "equipment", 
+      "products": 2,
+      "clicks": 56,
+      "earnings": 15456,
+      "percentage": 22.0
+    },
+    {
+      "category": "gadgets",
+      "products": 1,
+      "clicks": 89,
+      "earnings": 24920,
+      "percentage": 34.9
+    },
+    {
+      "category": "clothing",
+      "products": 1,
+      "clicks": 63,
+      "earnings": 34020,
+      "percentage": 24.7
+    }
+  ],
+  "recentClicks": [
+    {
+      "_id": "click001",
+      "productId": "507f1f77bcf86cd799439013",
+      "productTitle": "Mi Band Fitness Tracker",
+      "userId": "user123",
+      "clickedAt": "2024-03-05T14:32:00.000Z",
+      "ip": "192.168.1.105"
+    },
+    {
+      "_id": "click002", 
+      "productId": "507f1f77bcf86cd799439014",
+      "productTitle": "Athletic Running Shoes",
+      "userId": "user123",
+      "clickedAt": "2024-03-05T13:45:00.000Z",
+      "ip": "10.0.0.23"
+    },
+    {
+      "_id": "click003",
+      "productId": "507f1f77bcf86cd799439011",
+      "productTitle": "Whey Protein 2kg",
+      "userId": "user123", 
+      "clickedAt": "2024-03-05T12:18:00.000Z",
+      "ip": "172.16.0.54"
+    }
+  ]
+}

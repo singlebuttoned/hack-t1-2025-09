@@ -1,7 +1,49 @@
 [
   {
-    "type": "plan",
+    "type": "unknown",
     "logs": [
+      {
+        "@level": "info",
+        "@message": "Terraform version: 1.13.1",
+        "@timestamp": "2025-09-09T15:31:47.945980+03:00",
+        "timestamp": "2025-09-09T15:31:47.945980+03:00",
+        "level": "info"
+      },
+      {
+        "@level": "debug",
+        "@message": "using github.com/hashicorp/go-tfe v1.74.1",
+        "@timestamp": "2025-09-09T15:31:47.946115+03:00",
+        "timestamp": "2025-09-09T15:31:47.946115+03:00",
+        "level": "debug"
+      },
+      {
+        "@level": "debug",
+        "@message": "using github.com/hashicorp/hcl/v2 v2.24.0",
+        "@timestamp": "2025-09-09T15:31:47.946121+03:00",
+        "timestamp": "2025-09-09T15:31:47.946121+03:00",
+        "level": "debug"
+      },
+      {
+        "@level": "debug",
+        "@message": "using github.com/hashicorp/terraform-svchost v0.1.1",
+        "@timestamp": "2025-09-09T15:31:47.946124+03:00",
+        "timestamp": "2025-09-09T15:31:47.946124+03:00",
+        "level": "debug"
+      },
+      {
+        "@level": "debug",
+        "@message": "using github.com/zclconf/go-cty v1.16.3",
+        "@timestamp": "2025-09-09T15:31:47.946127+03:00",
+        "timestamp": "2025-09-09T15:31:47.946127+03:00",
+        "level": "debug"
+      },
+      {
+        "@level": "info",
+        "@message": "Go runtime version: go1.24.5",
+        "@timestamp": "2025-09-09T15:31:47.946130+03:00",
+        "timestamp": "2025-09-09T15:31:47.946130+03:00",
+        "level": "info"
+      },
       {
         "@level": "info",
         "@message": "CLI args: []string{\"terraform\", \"plan\", \"-json\"}",
@@ -7283,10 +7325,7 @@
         "User-Agent": "T1Cloud golang api client v0.0.1",
         "tf_data_source_type": "t1_vpc_network",
         "tf_http_op_type": "request",
-        "tf_http_req_body": {
-          "hidden": true,
-          "data": ""
-        },
+        "tf_http_req_body": "",
         "tf_http_req_method": "GET",
         "tf_http_req_uri": "/vpc/api/v1/projects/proj-rb4czryqmoxtox1/networks",
         "tf_http_req_version": "HTTP/1.1",
@@ -7320,27 +7359,24 @@
         "X-Request-Id": "2771352ba1fd7ac44da673de4fd44902",
         "tf_data_source_type": "t1_vpc_network",
         "tf_http_op_type": "response",
-        "tf_http_res_body": {
-          "hidden": true,
-          "data": [
-            {
-              "name": "default",
-              "status": "available",
-              "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
-              "description": "Предварительно созданная сеть.",
-              "create_time": "2024-11-11T08:36:42.708195",
-              "shared_from": null
-            },
-            {
-              "name": "networkltknoaQlen",
-              "status": "available",
-              "id": "9fed7247-c9db-470d-aaf0-615ae2b0cef9",
-              "description": "description for my network",
-              "create_time": "2025-09-01T08:43:35.355576",
-              "shared_from": null
-            }
-          ]
-        },
+        "tf_http_res_body": [
+          {
+            "name": "default",
+            "status": "available",
+            "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
+            "description": "Предварительно созданная сеть.",
+            "create_time": "2024-11-11T08:36:42.708195",
+            "shared_from": null
+          },
+          {
+            "name": "networkltknoaQlen",
+            "status": "available",
+            "id": "9fed7247-c9db-470d-aaf0-615ae2b0cef9",
+            "description": "description for my network",
+            "create_time": "2025-09-01T08:43:35.355576",
+            "shared_from": null
+          }
+        ],
         "tf_http_res_status_code": 200,
         "tf_http_res_status_reason": "200 OK",
         "tf_http_res_version": "HTTP/2.0",
@@ -7363,10 +7399,7 @@
         "User-Agent": "T1Cloud golang api client v0.0.1",
         "tf_data_source_type": "t1_vpc_network",
         "tf_http_op_type": "request",
-        "tf_http_req_body": {
-          "hidden": true,
-          "data": ""
-        },
+        "tf_http_req_body": "",
         "tf_http_req_method": "GET",
         "tf_http_req_uri": "/vpc/api/v1/projects/proj-rb4czryqmoxtox1/subnets?network_id=3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
         "tf_http_req_version": "HTTP/1.1",
@@ -7399,59 +7432,56 @@
         "X-Request-Id": "5f95067034123de7408611ce47753e1c",
         "tf_data_source_type": "t1_vpc_network",
         "tf_http_op_type": "response",
-        "tf_http_res_body": {
-          "hidden": true,
-          "data": [
-            {
+        "tf_http_res_body": [
+          {
+            "status": "available",
+            "cidr": "10.128.0.0/24",
+            "id": "5be69b00-fa9a-4b4d-b7c1-b403f1592ce0",
+            "name": "default-ru-central1",
+            "description": "Подсеть создана в автоматическом режиме для региона ru-central1.",
+            "gateway_ip": "10.128.0.1",
+            "enable_dhcp": true,
+            "network": {
+              "name": "default",
               "status": "available",
-              "cidr": "10.128.0.0/24",
-              "id": "5be69b00-fa9a-4b4d-b7c1-b403f1592ce0",
-              "name": "default-ru-central1",
-              "description": "Подсеть создана в автоматическом режиме для региона ru-central1.",
-              "gateway_ip": "10.128.0.1",
-              "enable_dhcp": true,
-              "network": {
-                "name": "default",
-                "status": "available",
-                "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
-                "description": "Предварительно созданная сеть.",
-                "create_time": "2024-11-11T08:36:42.708195",
-                "shared_from": null
-              },
-              "region": {
-                "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
-                "name": "ru-central1",
-                "description": ""
-              },
-              "shared_from": null,
-              "shared_to": []
+              "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
+              "description": "Предварительно созданная сеть.",
+              "create_time": "2024-11-11T08:36:42.708195",
+              "shared_from": null
             },
-            {
+            "region": {
+              "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
+              "name": "ru-central1",
+              "description": ""
+            },
+            "shared_from": null,
+            "shared_to": []
+          },
+          {
+            "status": "available",
+            "cidr": "10.128.1.0/24",
+            "id": "1c67b9a7-a0d2-49af-8767-bca95b96eabc",
+            "name": "foo-subnet",
+            "description": "description for my subnet",
+            "gateway_ip": "10.128.1.1",
+            "enable_dhcp": true,
+            "network": {
+              "name": "default",
               "status": "available",
-              "cidr": "10.128.1.0/24",
-              "id": "1c67b9a7-a0d2-49af-8767-bca95b96eabc",
-              "name": "foo-subnet",
-              "description": "description for my subnet",
-              "gateway_ip": "10.128.1.1",
-              "enable_dhcp": true,
-              "network": {
-                "name": "default",
-                "status": "available",
-                "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
-                "description": "Предварительно созданная сеть.",
-                "create_time": "2024-11-11T08:36:42.708195",
-                "shared_from": null
-              },
-              "region": {
-                "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
-                "name": "ru-central1",
-                "description": ""
-              },
-              "shared_from": null,
-              "shared_to": []
-            }
-          ]
-        },
+              "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
+              "description": "Предварительно созданная сеть.",
+              "create_time": "2024-11-11T08:36:42.708195",
+              "shared_from": null
+            },
+            "region": {
+              "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
+              "name": "ru-central1",
+              "description": ""
+            },
+            "shared_from": null,
+            "shared_to": []
+          }
+        ],
         "tf_http_res_status_code": 200,
         "tf_http_res_status_reason": "200 OK",
         "tf_http_res_version": "HTTP/2.0",
@@ -8176,10 +8206,7 @@
         "User-Agent": "T1Cloud golang api client v0.0.1",
         "tf_data_source_type": "t1_vpc_subnet",
         "tf_http_op_type": "request",
-        "tf_http_req_body": {
-          "hidden": true,
-          "data": ""
-        },
+        "tf_http_req_body": "",
         "tf_http_req_method": "GET",
         "tf_http_req_uri": "/vpc/api/v1/projects/proj-rb4czryqmoxtox1/subnets?network_id=3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
         "tf_http_req_version": "HTTP/1.1",
@@ -8212,59 +8239,56 @@
         "X-Request-Id": "662657d713e1decd26830a67413f8f82",
         "tf_data_source_type": "t1_vpc_subnet",
         "tf_http_op_type": "response",
-        "tf_http_res_body": {
-          "hidden": true,
-          "data": [
-            {
+        "tf_http_res_body": [
+          {
+            "status": "available",
+            "cidr": "10.128.0.0/24",
+            "id": "5be69b00-fa9a-4b4d-b7c1-b403f1592ce0",
+            "name": "default-ru-central1",
+            "description": "Подсеть создана в автоматическом режиме для региона ru-central1.",
+            "gateway_ip": "10.128.0.1",
+            "enable_dhcp": true,
+            "network": {
+              "name": "default",
               "status": "available",
-              "cidr": "10.128.0.0/24",
-              "id": "5be69b00-fa9a-4b4d-b7c1-b403f1592ce0",
-              "name": "default-ru-central1",
-              "description": "Подсеть создана в автоматическом режиме для региона ru-central1.",
-              "gateway_ip": "10.128.0.1",
-              "enable_dhcp": true,
-              "network": {
-                "name": "default",
-                "status": "available",
-                "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
-                "description": "Предварительно созданная сеть.",
-                "create_time": "2024-11-11T08:36:42.708195",
-                "shared_from": null
-              },
-              "region": {
-                "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
-                "name": "ru-central1",
-                "description": ""
-              },
-              "shared_from": null,
-              "shared_to": []
+              "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
+              "description": "Предварительно созданная сеть.",
+              "create_time": "2024-11-11T08:36:42.708195",
+              "shared_from": null
             },
-            {
+            "region": {
+              "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
+              "name": "ru-central1",
+              "description": ""
+            },
+            "shared_from": null,
+            "shared_to": []
+          },
+          {
+            "status": "available",
+            "cidr": "10.128.1.0/24",
+            "id": "1c67b9a7-a0d2-49af-8767-bca95b96eabc",
+            "name": "foo-subnet",
+            "description": "description for my subnet",
+            "gateway_ip": "10.128.1.1",
+            "enable_dhcp": true,
+            "network": {
+              "name": "default",
               "status": "available",
-              "cidr": "10.128.1.0/24",
-              "id": "1c67b9a7-a0d2-49af-8767-bca95b96eabc",
-              "name": "foo-subnet",
-              "description": "description for my subnet",
-              "gateway_ip": "10.128.1.1",
-              "enable_dhcp": true,
-              "network": {
-                "name": "default",
-                "status": "available",
-                "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
-                "description": "Предварительно созданная сеть.",
-                "create_time": "2024-11-11T08:36:42.708195",
-                "shared_from": null
-              },
-              "region": {
-                "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
-                "name": "ru-central1",
-                "description": ""
-              },
-              "shared_from": null,
-              "shared_to": []
-            }
-          ]
-        },
+              "id": "3ea7acf0-1e82-488e-bda8-76bfda81a8f8",
+              "description": "Предварительно созданная сеть.",
+              "create_time": "2024-11-11T08:36:42.708195",
+              "shared_from": null
+            },
+            "region": {
+              "id": "0c530dd3-eaae-4216-8f9d-9b5710a7cc30",
+              "name": "ru-central1",
+              "description": ""
+            },
+            "shared_from": null,
+            "shared_to": []
+          }
+        ],
         "tf_http_res_status_code": 200,
         "tf_http_res_status_reason": "200 OK",
         "tf_http_res_version": "HTTP/2.0",

@@ -1,122 +1,107 @@
 import json
 import re
-from pathlib import Path
-from typing import Any, Dict, List, Optional
-import os
-import sys
-import json
+from dataclasses import dataclass
+from typing import Any, Dict, List, Tuple
 
+
+# Простой мок-логгер до интеграции с реальным бекенд-логгером
+class Logger:
+    def error(self, message: str):
+        print("ERROR: " + str(message))
+
+    def info(self, message: str):
+        print("INFO: " + str(message))
+
+
+logger = Logger()
+
+
+# Регулярные выражения для извлечения типичных полей из сырой строки
 TIMESTAMP_REGEX = re.compile(
     r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})"
 )
 LEVEL_REGEX = re.compile(r"\b(INFO|DEBUG|TRACE|WARN|ERROR|FATAL)\b", re.IGNORECASE)
 
-class TerraformLogParser:
-    def __init__(self, filepath: str):
-        self.filepath = Path(filepath)
-        self.sections: List[Dict[str, Any]] = []
 
-    def parse_file(self):
-        current_section = None
+@dataclass
+class Error:
+    message: str
 
-        with self.filepath.open("r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
 
-                entry = self._parse_line(line)
+@dataclass
+class Result:
+    logs: List[Dict[str, Any]]
+    error_lines: List[Tuple[int, str]]
 
-                # детект начала новой секции
-                if self._is_plan(entry):
-                    current_section = {"type": "plan", "logs": []}
-                    self.sections.append(current_section)
-                elif self._is_apply(entry):
-                    current_section = {"type": "apply", "logs": []}
-                    self.sections.append(current_section)
 
-                # если секция активна — добавляем лог
-                if current_section:
-                    current_section["logs"].append(entry)
+def _parse_line_to_dict(line: str) -> Dict[str, Any]:
+    """
+    Превращает одну NDJSON-строку в словарь, добавляя поля timestamp/level и
+    пытаясь распарсить тела HTTP-запросов/ответов, если они представлены строкой JSON.
+    """
+    try:
+        data = json.loads(line)
+    except json.JSONDecodeError:
+        data = {"raw": line}
 
-        return self.sections
+    ts = data.get("@timestamp")
+    if not ts and "raw" in data:
+        match = TIMESTAMP_REGEX.search(data["raw"])
+        if match:
+            ts = match.group(0)
+    data["timestamp"] = ts or "unknown"
 
-    def _parse_line(self, line: str) -> Dict[str, Any]:
+    lvl = data.get("@level")
+    if not lvl and "raw" in data:
+        match = LEVEL_REGEX.search(data["raw"])
+        if match:
+            lvl = match.group(1).lower()
+    data["level"] = (lvl or "unknown").lower()
+
+    for field in ("tf_http_req_body", "tf_http_res_body"):
+        if field in data:
+            raw_body = data[field]
+            try:
+                data[field] = json.loads(raw_body) if isinstance(raw_body, str) else raw_body
+            except Exception:
+                data[field] = raw_body
+
+    return data
+
+
+def _parse_internal(lines: List[str]) -> Result:
+    """
+    Внутренняя реализация парсинга: возвращает список разобранных логов и список ошибок строк.
+    """
+    logs: List[Dict[str, Any]] = []
+    errors: List[Tuple[int, str]] = []
+
+    for idx, raw_line in enumerate(lines, start=1):
+        line = raw_line.strip()
+        if not line:
+            continue
         try:
-            data = json.loads(line)
-        except json.JSONDecodeError:
-            data = {"raw": line}
+            entry = _parse_line_to_dict(line)
+            logs.append(entry)
+        except Exception as e:
+            # Локальная ошибка парсинга конкретной строки — не прерываем весь процесс
+            errors.append((idx, str(e)))
 
-        # timestamp
-        ts = data.get("@timestamp")
-        if not ts and "raw" in data:
-            match = TIMESTAMP_REGEX.search(data["raw"])
-            if match:
-                ts = match.group(0)
-        data["timestamp"] = ts or "unknown"
-
-        # level
-        lvl = data.get("@level")
-        if not lvl and "raw" in data:
-            match = LEVEL_REGEX.search(data["raw"])
-            if match:
-                lvl = match.group(1).lower()
-        data["level"] = (lvl or "unknown").lower()
-
-        # обработка JSON-блоков в http body
-        for field in ("tf_http_req_body", "tf_http_res_body"):
-            if field in data:
-                raw_body = data[field]
-                try:
-                    data[field] = {
-                        "hidden": True,
-                        "data": json.loads(raw_body) if isinstance(raw_body, str) else raw_body,
-                    }
-                except Exception:
-                    data[field] = {"hidden": True, "data": raw_body}
-
-        return data
-
-    @staticmethod
-    def _is_plan(entry: Dict[str, Any]) -> bool:
-        msg = entry.get("@message", "") or entry.get("raw", "")
-        return "terraform" in msg and "plan" in msg
-
-    @staticmethod
-    def _is_apply(entry: Dict[str, Any]) -> bool:
-        msg = entry.get("@message", "") or entry.get("raw", "")
-        return "terraform" in msg and "apply" in msg
+    return Result(logs=logs, error_lines=errors)
 
 
-if __name__ == "__main__":
-    # Кандидатные пути к 1.json: сначала в папке parser/data, затем fallback в back/data
-    base_dir = os.path.dirname(__file__)
-    candidates = [
-        os.path.abspath(os.path.join(base_dir, "in.json")),
-        os.path.abspath(os.path.join(base_dir, "..", "in.json")),
-    ]
+def parse_log(lines: List[str]) -> Result | Error:
+    """
+    Парсит логи Terraform из NDJSON-строк.
 
-    data_path = None
-    for candidate in candidates:
-        if os.path.isfile(candidate):
-            data_path = candidate
-            break
+    :param lines: массив строк, каждая строка — одна запись NDJSON
+    :return: Result | Error — результат парсинга или глобальная ошибка
+    """
+    try:
+        result = _parse_internal(lines)
+    except Exception as e:
+        logger.error(e)
+        return Error(f"Произошла ошибка при попытке распарсить логи: {e}")
 
-    # Если файл не найден ни по одному пути — выводим понятную ошибку и завершаем выполнение
-    if not data_path:
-        print("Файл не найден. Проверьте наличие по путям:")
-        for p in candidates:
-            print(f"- {p}")
-        sys.exit(1)
-
-
-    parser = TerraformLogParser(data_path)
-    sections = parser.parse_file()
-
-    output_path = os.path.abspath(os.path.join(base_dir, "out.json"))
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(sections, f, ensure_ascii=False, indent=2)
-
-    print(f"Результат сохранён в: {output_path}")
-
-    # Если же вопрос был о текущем коде — он только печатает первые 3 лога каждой секции в консоль, ничего не сохраняя.
+    logger.info(f"Успешно распарсили строк: {len(result.logs)}, ошибок: {len(result.error_lines)}")
+    return result

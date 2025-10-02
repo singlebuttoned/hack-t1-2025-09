@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: elasticsearch
+    environment:
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - node.name=es
+        - cluster.name=es-docker-cluster
+        - cluster.initial_master_nodes=es
+        - MAX_LOCKED_MEMORY=unlimited
+    volumes:
+        - ./es_data_volume:/usr/share/elasticsearch/data
+        - ./elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    ports:
+        - 9200:9200
+        - 9300:9300
+
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./back:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+volumes:
+  esdata:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

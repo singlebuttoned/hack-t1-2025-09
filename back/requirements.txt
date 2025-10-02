@@ -1,0 +1,7 @@
+fastapi[all]
+sqlalchemy
+asyncpg
+alembic
+psycopg2-binary
+# Используем современный клиент, совместимый с Python 3.11
+elasticsearch>=7.17.0,<8.0.0

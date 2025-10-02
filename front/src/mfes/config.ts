@@ -39,6 +39,14 @@ export const microFrontendDefinitions: readonly MicroFrontendDefinitionInput[] =
       pathPrefix: validPathPrefix('/dashboard/profile'),
       containerId: 'mfe-dashboard-profile-container',
       loader: () => import('./profile')
+    },
+    {
+      key: 'log-viewer',
+      title: 'Log Viewer',
+      icon: 'page',
+      pathPrefix: validPathPrefix('/dashboard/log-viewer'),
+      containerId: 'mfe-dashboard-log-viewer-container',
+      loader: () => import('./log-viewer')
     }
   ];
 
@@ -47,7 +55,7 @@ export const editionConfigurations: readonly EditionConfigInput[] = [
     key: 'default',
     label: 'Default',
     description: 'Full dashboard experience',
-    mfes: ['overview', 'storyboard', 'product', 'profile']
+    mfes: ['overview', 'storyboard', 'product', 'profile', 'log-viewer']
   },
   {
     key: 'v1',
